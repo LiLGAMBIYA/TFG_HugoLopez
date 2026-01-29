@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cita{% endblock %}
+
+{% block body %}
+    <h1>Cita</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ citum.id }}</td>
+            </tr>
+            <tr>
+                <th>ClienteNombre</th>
+                <td>{{ citum.clienteNombre }}</td>
+            </tr>
+            <tr>
+                <th>Telefono</th>
+                <td>{{ citum.telefono }}</td>
+            </tr>
+            <tr>
+                <th>Matricula</th>
+                <td>{{ citum.matricula }}</td>
+            </tr>
+            <tr>
+                <th>ModeloCoche</th>
+                <td>{{ citum.modeloCoche }}</td>
+            </tr>
+            <tr>
+                <th>DescripcionAveria</th>
+                <td>{{ citum.descripcionAveria }}</td>
+            </tr>
+            <tr>
+                <th>FechaDeseada</th>
+                <td>{{ citum.fechaDeseada ? citum.fechaDeseada|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Estado</th>
+                <td>{{ citum.estado }}</td>
+            </tr>
+            <tr>
+                <th>FechaCreacion</th>
+                <td>{{ citum.fechaCreacion ? citum.fechaCreacion|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cita_index') }}">back to list</a>
+
+    <a href="{{ path('app_cita_edit', {'id': citum.id}) }}">edit</a>
+
+    {{ include('cita/_delete_form.html.twig') }}
+{% endblock %}

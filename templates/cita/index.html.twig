@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cita index{% endblock %}
+
+{% block body %}
+    <h1>Cita index</h1>
+
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ClienteNombre</th>
+                <th>Telefono</th>
+                <th>Matricula</th>
+                <th>ModeloCoche</th>
+                <th>DescripcionAveria</th>
+                <th>FechaDeseada</th>
+                <th>Estado</th>
+                <th>FechaCreacion</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for citum in citas %}
+            <tr>
+                <td>{{ citum.id }}</td>
+                <td>{{ citum.clienteNombre }}</td>
+                <td>{{ citum.telefono }}</td>
+                <td>{{ citum.matricula }}</td>
+                <td>{{ citum.modeloCoche }}</td>
+                <td>{{ citum.descripcionAveria }}</td>
+                <td>{{ citum.fechaDeseada ? citum.fechaDeseada|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ citum.estado }}</td>
+                <td>{{ citum.fechaCreacion ? citum.fechaCreacion|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_cita_show', {'id': citum.id}) }}" class="btn btn-sm btn-info">Ver</a>
+                    <a href="{{ path('app_cita_edit', {'id': citum.id}) }}" class="btn btn-sm btn-warning">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_cita_new') }}" class="btn btn-primary">Crear nueva cita</a>
+{% endblock %}
