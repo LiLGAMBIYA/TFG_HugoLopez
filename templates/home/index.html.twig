@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio - Mi TFG{% endblock %}
+
+{% block body %}
+<div class="row mt-5">
+    <div class="col-md-8 offset-md-2 text-center">
+        <h1 class="mb-4">Bienvenido a la Plataforma</h1>
+        <p class="lead">Esta es la página de inicio del sistema, parte del módulo de autenticación del TFG.</p>
+        
+        {% if app.user %}
+            <div class="alert alert-success mt-4">
+                Has iniciado sesión correctamente como <strong>{{ app.user.userIdentifier }}</strong>.
+            </div>
+            <a href="{{ path('app_logout') }}" class="btn btn-danger mt-3">Cerrar Sesión</a>
+        {% else %}
+            <div class="alert alert-info mt-4">
+                Actualmente no has iniciado sesión. Por favor, identifícate para acceder a todas las funcionalidades.
+            </div>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
+                <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-4 gap-3">Iniciar Sesión</a>
+                <a href="{{ path('app_register') }}" class="btn btn-outline-secondary btn-lg px-4">Registrarse</a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
