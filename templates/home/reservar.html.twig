@@ -1,0 +1,89 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pedir Cita - JM Motor{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center animate-fade-in mt-4">
+    <div class="col-md-8">
+        <div class="glass-card p-5 mb-5">
+            <div class="text-center mb-4">
+                <h1 class="display-5 fw-bold mb-3">Solicitar <span style="color: var(--accent);">Cita</span></h1>
+                <p class="lead text-muted">Complete el siguiente formulario para solicitar una cita en nuestro taller. Nos pondremos en contacto con usted para confirmar los detalles.</p>
+            </div>
+
+            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+                
+                <h4 class="mb-3 mt-4 text-white border-bottom pb-2">1. Sus Datos</h4>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.clienteNombre) }}
+                        {{ form_widget(form.clienteNombre, {'attr': {'class': 'form-control bg-dark text-white'}}) }}
+                        {{ form_errors(form.clienteNombre) }}
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        {{ form_label(form.telefono) }}
+                        {{ form_widget(form.telefono, {'attr': {'class': 'form-control bg-dark text-white'}}) }}
+                        {{ form_errors(form.telefono) }}
+                    </div>
+                </div>
+
+                <h4 class="mb-3 mt-4 text-white border-bottom pb-2">2. Su Vehículo</h4>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.matricula) }}
+                        {{ form_widget(form.matricula, {'attr': {'class': 'form-control bg-dark text-white', 'style': 'text-transform: uppercase;'}}) }}
+                        {{ form_errors(form.matricula) }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.marca) }}
+                        {{ form_widget(form.marca, {'attr': {'class': 'form-control bg-dark text-white'}}) }}
+                        {{ form_errors(form.marca) }}
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        {{ form_label(form.modelo) }}
+                        {{ form_widget(form.modelo, {'attr': {'class': 'form-control bg-dark text-white'}}) }}
+                        {{ form_errors(form.modelo) }}
+                    </div>
+                </div>
+
+                <h4 class="mb-3 mt-4 text-white border-bottom pb-2">3. Detalles de la Cita</h4>
+                <div class="mb-3">
+                    {{ form_label(form.servicio) }}
+                    {{ form_widget(form.servicio, {'attr': {'class': 'form-select bg-dark text-white'}}) }}
+                    {{ form_errors(form.servicio) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.fechaDeseada) }}
+                    {{ form_widget(form.fechaDeseada, {'attr': {'class': 'form-control bg-dark text-white'}}) }}
+                    {{ form_errors(form.fechaDeseada) }}
+                </div>
+                <div class="mb-4">
+                    {{ form_label(form.descripcionAveria) }}
+                    {{ form_widget(form.descripcionAveria, {'attr': {'class': 'form-control bg-dark text-white', 'rows': 4}}) }}
+                    {{ form_errors(form.descripcionAveria) }}
+                </div>
+
+                <div class="d-grid gap-2 mt-5">
+                    <button type="submit" class="btn btn-primary btn-lg fw-bold" style="box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);">Confirmar Solicitud de Cita</button>
+                    <a href="{{ path('app_home') }}" class="btn btn-outline-secondary mt-2">Volver al Inicio</a>
+                </div>
+            {{ form_end(form) }}
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    // Validación básica en cliente
+    document.addEventListener('DOMContentLoaded', function() {
+        const form = document.querySelector('.needs-validation');
+        form.addEventListener('submit', function(event) {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            form.classList.add('was-validated');
+        }, false);
+    });
+</script>
+{% endblock %}

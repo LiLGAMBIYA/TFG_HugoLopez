@@ -1,27 +1,125 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inicio - Mi TFG{% endblock %}
+{% block title %}Inicio - JM Motor Taller Mecánico{% endblock %}
 
 {% block body %}
-<div class="row mt-5">
-    <div class="col-md-8 offset-md-2 text-center">
-        <h1 class="mb-4">Bienvenido a la Plataforma</h1>
-        <p class="lead">Esta es la página de inicio del sistema, parte del módulo de autenticación del TFG.</p>
-        
+<div class="row mt-4 animate-fade-in">
+    <div class="col-12">
+        <!-- RF-01: Landing Page Banner -->
+        <div class="glass-card text-center mb-5 p-5" style="background: linear-gradient(135deg, rgba(0,212,255,0.1) 0%, rgba(9,9,121,0.1) 100%); border-bottom: 3px solid var(--accent);">
+            <h1 class="display-4 fw-bold mb-3">Tu Taller de Confianza, <br><span style="color: var(--accent);">Ahora Digital</span></h1>
+            <h4 class="mb-4 text-white">Especialistas en Audi / VW</h4>
+            <p class="lead mb-4" style="color: var(--text-secondary);">
+                Gestiona tus vehículos, consulta nuestros servicios y solicita citas de forma rápida y sencilla.
+            </p>
+            
+            <div class="d-flex justify-content-center gap-3 mt-4">
+                <a href="{{ path('app_home_reservar') }}" class="btn btn-primary btn-lg px-5 py-3 fw-bold" style="font-size: 1.1rem; box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4);">Pedir Cita</a>
+            </div>
+
+
+        </div>
+
         {% if app.user %}
-            <div class="alert alert-success mt-4">
-                Has iniciado sesión correctamente como <strong>{{ app.user.userIdentifier }}</strong>.
+        <!-- Panel Privado Usuario/Admin -->
+        <div class="row g-4 mb-5">
+            <div class="col-md-4">
+                <div class="glass-card h-100 text-center p-4">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🚗</div>
+                    <h3>Mis Vehículos</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Registra y administra los vehículos asociados a tu cuenta para solicitar servicios.</p>
+                    <a href="{{ path('app_vehiculo_index') }}" class="btn btn-outline-primary mt-3">Ver Vehículos</a>
+                </div>
             </div>
-            <a href="{{ path('app_logout') }}" class="btn btn-danger mt-3">Cerrar Sesión</a>
-        {% else %}
-            <div class="alert alert-info mt-4">
-                Actualmente no has iniciado sesión. Por favor, identifícate para acceder a todas las funcionalidades.
+            <div class="col-md-4">
+                <div class="glass-card h-100 text-center p-4">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📅</div>
+                    <h3>Mis Citas</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Agenda una nueva cita para revisión, reparación o mantenimiento de tu vehículo.</p>
+                    <a href="{{ path('app_cita_index') }}" class="btn btn-outline-primary mt-3">Gestionar Citas</a>
+                </div>
             </div>
-            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mt-4">
-                <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg px-4 gap-3">Iniciar Sesión</a>
-                <a href="{{ path('app_register') }}" class="btn btn-outline-secondary btn-lg px-4">Registrarse</a>
+            <div class="col-md-4">
+                <div class="glass-card h-100 text-center p-4">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🧾</div>
+                    <h3>Facturas</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Consulta y descarga el historial de facturas de tus servicios finalizados.</p>
+                    <a href="{{ path('app_factura_index') }}" class="btn btn-outline-primary mt-3">Ver Facturas</a>
+                </div>
             </div>
+        </div>
         {% endif %}
+
+        <!-- RF-02: Catálogo de Servicios -->
+        <h2 class="mb-4 text-center">Nuestros <span style="color: var(--accent);">Servicios</span></h2>
+        <div class="row g-4 mb-5">
+            {% if servicios is defined and servicios|length > 0 %}
+                {% for servicio in servicios %}
+                    <div class="col-md-6 col-lg-4">
+                        <div class="glass-card h-100">
+                            <h4 class="text-white">{{ servicio.nombre }}</h4>
+                            <p class="text-muted">{{ servicio.descripcion }}</p>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="badge bg-primary px-3 py-2 fs-6">{{ servicio.precio }} €</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center text-muted">
+                    <p>No hay servicios configurados actualmente.</p>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- RF-03: Localización y Contacto -->
+        <div class="glass-card p-4 mb-5">
+            <h2 class="mb-4 text-center">Ubicación y <span style="color: var(--accent);">Contacto</span></h2>
+            <div class="row">
+                <div class="col-md-6 mb-4 mb-md-0">
+                    <div class="rounded overflow-hidden h-100" style="min-height: 300px;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d3179.3787766576884!2d-3.626782023479634!3d37.16744037214343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71fcb686e06803%3A0x64c8d5be144dc309!2sCam.%20de%20Purchil%2C%201%2C%20Ronda%2C%2018004%20Granada!5e0!3m2!1ses!2ses!4v1715500000000!5m2!1ses!2ses" 
+                            width="100%" 
+                            height="100%" 
+                            style="border:0; min-height: 300px;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+                <div class="col-md-6 d-flex flex-column justify-content-center px-md-5">
+                    <h4 class="text-white mb-3">JM Motor Taller Mecánico</h4>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">📍</div>
+                        <div>
+                            <strong class="d-block text-white">Dirección</strong>
+                            <span class="text-muted">Cam. de Purchil, 1, Ronda, 18004 Granada</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">📞</div>
+                        <div>
+                            <strong class="d-block text-white">Teléfono</strong>
+                            <span class="text-muted">664 30 50 28</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">🕒</div>
+                        <div>
+                            <strong class="d-block text-white">Horario de Apertura</strong>
+                            <span class="text-muted d-block">Mañanas: 09:00 - 14:00</span>
+                            <span class="text-muted d-block">Tardes: 16:30 - 20:00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>
 {% endblock %}

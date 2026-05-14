@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Editar Cita #{{ citum.id }} - JM Motor{% endblock %}
+{% block title %}Editar Factura {{ factura.numeroFactura }} - JM Motor{% endblock %}
 
 {% block body %}
 <div class="row justify-content-center animate-fade-in mt-4">
     <div class="col-md-8">
         <div class="glass-card p-5" style="border-top: 4px solid var(--accent-orange);">
-            <h1 class="mb-1">✏️ Editar Cita <span style="color: var(--accent-orange);">#{{ citum.id }}</span></h1>
-            <p class="text-muted mb-4">Modifica los datos de la cita y guarda los cambios.</p>
+            <h1 class="mb-1">✏️ Editar Factura <span style="color: var(--accent-orange);">{{ factura.numeroFactura }}</span></h1>
+            <p class="text-muted mb-4">Modifica los datos de la factura y guarda los cambios.</p>
 
             {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_errors(form) }}
@@ -22,7 +22,7 @@
 
                 <div class="d-flex gap-3 mt-4">
                     <button class="btn btn-primary flex-grow-1">💾 Guardar Cambios</button>
-                    <a href="{{ path('app_cita_show', {'id': citum.id}) }}" class="btn btn-outline-primary">Cancelar</a>
+                    <a href="{{ path('app_factura_index') }}" class="btn btn-outline-primary">Cancelar</a>
                 </div>
             {{ form_end(form) }}
         </div>

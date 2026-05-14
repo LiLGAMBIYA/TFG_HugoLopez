@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/servicio')]
 final class ServicioController extends AbstractController
@@ -23,6 +24,7 @@ final class ServicioController extends AbstractController
     }
 
     #[Route('/new', name: 'app_servicio_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $servicio = new Servicio();
@@ -51,6 +53,7 @@ final class ServicioController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_servicio_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Servicio $servicio, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ServicioType::class, $servicio);
@@ -69,6 +72,7 @@ final class ServicioController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_servicio_delete', methods: ['POST'])]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Servicio $servicio, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$servicio->getId(), $request->getPayload()->getString('_token'))) {

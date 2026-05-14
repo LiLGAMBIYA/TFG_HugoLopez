@@ -1,45 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Registro - Mi TFG{% endblock %}
+{% block title %}Registro - Plataforma Automotriz{% endblock %}
 
 {% block body %}
-<div class="row mt-5">
+<div class="row mt-5 animate-fade-in">
     <div class="col-md-6 offset-md-3">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h3 class="card-title mb-0">Crear una cuenta</h3>
-            </div>
-            <div class="card-body">
-                {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
-                    
-                    <div class="mb-3">
-                        {{ form_label(registrationForm.email) }}
-                        {{ form_widget(registrationForm.email) }}
-                        <div class="text-danger mt-1">
-                            {{ form_errors(registrationForm.email) }}
-                        </div>
+        <div class="glass-card">
+            <h2 class="mb-4 text-center">Únete a la <span style="color: var(--accent);">Plataforma</span></h2>
+            
+            {{ form_start(registrationForm, {'attr': {'novalidate': 'novalidate'}}) }}
+                
+                <div class="mb-3">
+                    {{ form_label(registrationForm.email, 'Correo Electrónico', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'tu@email.com'}}) }}
+                    <div class="text-danger mt-1" style="font-size: 0.85rem;">
+                        {{ form_errors(registrationForm.email) }}
                     </div>
+                </div>
 
-                    <div class="mb-3">
-                        {{ form_label(registrationForm.plainPassword.first) }}
-                        {{ form_widget(registrationForm.plainPassword.first) }}
-                        <div class="text-danger mt-1">
-                            {{ form_errors(registrationForm.plainPassword.first) }}
-                        </div>
+                <div class="mb-3">
+                    {{ form_label(registrationForm.plainPassword.first, 'Contraseña', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+                    <div class="text-danger mt-1" style="font-size: 0.85rem;">
+                        {{ form_errors(registrationForm.plainPassword.first) }}
                     </div>
+                </div>
 
-                    <div class="mb-4">
-                        {{ form_label(registrationForm.plainPassword.second) }}
-                        {{ form_widget(registrationForm.plainPassword.second) }}
-                    </div>
+                <div class="mb-4">
+                    {{ form_label(registrationForm.plainPassword.second, 'Repite la Contraseña', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': '••••••••'}}) }}
+                </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-primary btn-lg">Registrarse</button>
-                    </div>
-                {{ form_end(registrationForm) }}
-            </div>
-            <div class="card-footer text-center bg-light">
-                <p class="mb-0">¿Ya tienes una cuenta? <a href="{{ path('app_login') }}">Inicia sesión aquí</a></p>
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary btn-lg">Crear Cuenta</button>
+                </div>
+            {{ form_end(registrationForm) }}
+
+            <div class="text-center mt-4 pt-3 border-top" style="border-color: var(--glass-border) !important;">
+                <p style="color: var(--text-secondary); margin-bottom: 0;">¿Ya tienes una cuenta? <a href="{{ path('app_login') }}" style="color: #fff; font-weight: 500;">Inicia sesión aquí</a></p>
             </div>
         </div>
     </div>

@@ -1,4 +1,8 @@
 security:
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
@@ -37,12 +41,20 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
+        # Rutas públicas (sin autenticación)
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/home, roles: PUBLIC_ACCESS }
+        - { path: ^/$, roles: PUBLIC_ACCESS }
+        - { path: ^/reservar, roles: PUBLIC_ACCESS }
+        - { path: ^/servicio$, roles: PUBLIC_ACCESS }
+        # Rutas exclusivas del administrador
+        - { path: ^/factura, roles: ROLE_ADMIN }
+        - { path: ^/pieza, roles: ROLE_ADMIN }
+        - { path: ^/usuario, roles: ROLE_ADMIN }
+        # Rutas de usuario autenticado
+        - { path: ^/cita, roles: ROLE_USER }
+        - { path: ^/vehiculo, roles: ROLE_USER }
 
 when@test:
     security:

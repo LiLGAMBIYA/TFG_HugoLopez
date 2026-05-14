@@ -1,54 +1,133 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Cita{% endblock %}
+{% block title %}Detalle de Cita #{{ citum.id }} - JM Motor{% endblock %}
 
 {% block body %}
-    <h1>Cita</h1>
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Detalle de Cita <span style="color: var(--accent-blue);">#{{ citum.id }}</span></h1>
+        <a href="{{ path('app_cita_index') }}" class="btn btn-outline-primary">← Volver al listado</a>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ citum.id }}</td>
-            </tr>
-            <tr>
-                <th>ClienteNombre</th>
-                <td>{{ citum.clienteNombre }}</td>
-            </tr>
-            <tr>
-                <th>Telefono</th>
-                <td>{{ citum.telefono }}</td>
-            </tr>
-            <tr>
-                <th>Matricula</th>
-                <td>{{ citum.matricula }}</td>
-            </tr>
-            <tr>
-                <th>ModeloCoche</th>
-                <td>{{ citum.modeloCoche }}</td>
-            </tr>
-            <tr>
-                <th>DescripcionAveria</th>
-                <td>{{ citum.descripcionAveria }}</td>
-            </tr>
-            <tr>
-                <th>FechaDeseada</th>
-                <td>{{ citum.fechaDeseada ? citum.fechaDeseada|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Estado</th>
-                <td>{{ citum.estado }}</td>
-            </tr>
-            <tr>
-                <th>FechaCreacion</th>
-                <td>{{ citum.fechaCreacion ? citum.fechaCreacion|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    {% endfor %}
 
-    <a href="{{ path('app_cita_index') }}">back to list</a>
+    <div class="row g-4">
+        {# Columna izquierda: Info de la cita #}
+        <div class="col-md-8">
+            <div class="glass-card p-4 mb-4">
+                <h4 class="mb-4" style="color: var(--accent-orange);">📋 Información de la Cita</h4>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">👤 Cliente</small>
+                            <p class="mb-0 fw-bold mt-1">
+                                {{ citum.clienteNombre ?: (citum.cliente ? citum.cliente.email : 'N/A') }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">📞 Teléfono</small>
+                            <p class="mb-0 fw-bold mt-1">{{ citum.telefono ?: 'No indicado' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">🚗 Vehículo</small>
+                            <p class="mb-0 fw-bold mt-1">
+                                {% if citum.vehiculo %}
+                                    {{ citum.vehiculo.marca }} {{ citum.vehiculo.modelo }}
+                                    <span class="badge bg-secondary ms-1">{{ citum.vehiculo.matricula }}</span>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">🔧 Servicio</small>
+                            <p class="mb-0 fw-bold mt-1">{{ citum.servicio ? citum.servicio.nombre : 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">📝 Descripción de la Avería</small>
+                            <p class="mb-0 mt-1">{{ citum.descripcionAveria }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">📅 Fecha Solicitada</small>
+                            <p class="mb-0 fw-bold mt-1">{{ citum.fechaDeseada ? citum.fechaDeseada|date('d/m/Y H:i') : 'N/A' }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">🕒 Fecha de Solicitud</small>
+                            <p class="mb-0 fw-bold mt-1">{{ citum.fechaCreacion ? citum.fechaCreacion|date('d/m/Y H:i') : 'N/A' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <a href="{{ path('app_cita_edit', {'id': citum.id}) }}">edit</a>
+        {# Columna derecha: Estado + Acciones #}
+        <div class="col-md-4">
+            <div class="glass-card p-4 mb-4 text-center">
+                <h5 class="mb-3">Estado Actual</h5>
+                {% set badge_map = {
+                    'Pendiente':  'warning',
+                    'Confirmada': 'primary',
+                    'En proceso': 'info',
+                    'Finalizada': 'success',
+                    'Cancelada':  'danger'
+                } %}
+                <span class="badge fs-5 py-2 px-4 bg-{{ badge_map[citum.estado] ?? 'secondary' }}">
+                    {{ citum.estado }}
+                </span>
 
-    {{ include('cita/_delete_form.html.twig') }}
+                {% if is_granted('ROLE_ADMIN') %}
+                <hr class="my-4" style="border-color: var(--glass-border);">
+                <h6 class="mb-3 text-muted">Cambiar Estado</h6>
+                <form method="post" action="{{ path('app_cita_change_estado', {'id': citum.id}) }}">
+                    <input type="hidden" name="_token" value="{{ csrf_token('estado' ~ citum.id) }}">
+                    <div class="d-grid gap-2">
+                        <button type="submit" name="estado" value="Confirmada" class="btn btn-sm btn-outline-primary">✅ Confirmar</button>
+                        <button type="submit" name="estado" value="En proceso" class="btn btn-sm btn-outline-info">🔧 En Proceso</button>
+                        <button type="submit" name="estado" value="Finalizada" class="btn btn-sm btn-outline-success">🏁 Finalizada</button>
+                        <button type="submit" name="estado" value="Cancelada" class="btn btn-sm btn-outline-danger">❌ Cancelar</button>
+                    </div>
+                </form>
+                {% endif %}
+            </div>
+
+            {% if is_granted('ROLE_ADMIN') %}
+            <div class="glass-card p-4">
+                <h6 class="mb-3 text-muted">Acciones Admin</h6>
+                <div class="d-grid gap-2">
+                    <a href="{{ path('app_cita_edit', {'id': citum.id}) }}" class="btn btn-outline-warning btn-sm">✏️ Editar Cita</a>
+                    {% if not citum.factura %}
+                        <a href="{{ path('app_factura_new') }}" class="btn btn-outline-success btn-sm">🧾 Generar Factura</a>
+                    {% else %}
+                        <a href="{{ path('app_factura_show', {'id': citum.factura.id}) }}" class="btn btn-outline-info btn-sm">🧾 Ver Factura</a>
+                    {% endif %}
+                    {{ include('cita/_delete_form.html.twig') }}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
 {% endblock %}

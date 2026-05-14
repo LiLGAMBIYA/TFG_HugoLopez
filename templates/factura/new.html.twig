@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Nueva Cita - JM Motor{% endblock %}
+{% block title %}Nueva Factura - JM Motor{% endblock %}
 
 {% block body %}
 <div class="row justify-content-center animate-fade-in mt-4">
     <div class="col-md-8">
         <div class="glass-card p-5" style="border-top: 4px solid var(--accent-blue);">
-            <h1 class="mb-1">📅 Nueva <span style="color: var(--accent-blue);">Cita</span></h1>
-            <p class="text-muted mb-4">Rellena el formulario para registrar una nueva cita en el sistema.</p>
+            <h1 class="mb-1">🧾 Nueva <span style="color: var(--accent-blue);">Factura</span></h1>
+            <p class="text-muted mb-4">Genera una nueva factura asociada a una cita.</p>
 
-            {{ form_start(form, {'attr': {'novalidate': 'novalidate', 'class': 'needs-validation'}}) }}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
                 {{ form_errors(form) }}
 
                 {% for child in form %}
@@ -21,8 +21,8 @@
                 {% endfor %}
 
                 <div class="d-flex gap-3 mt-4">
-                    <button class="btn btn-primary flex-grow-1">💾 Guardar Cita</button>
-                    <a href="{{ path('app_cita_index') }}" class="btn btn-outline-primary">Cancelar</a>
+                    <button class="btn btn-primary flex-grow-1">💾 Generar Factura</button>
+                    <a href="{{ path('app_factura_index') }}" class="btn btn-outline-primary">Cancelar</a>
                 </div>
             {{ form_end(form) }}
         </div>
