@@ -1,11 +1,33 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Servicio{% endblock %}
+{% block title %}Nuevo Servicio - JM Motor{% endblock %}
 
 {% block body %}
-    <h1>Create new Servicio</h1>
+<div class="row justify-content-center animate-fade-in mt-4">
+    <div class="col-md-8">
+        <div class="glass-card p-5" style="border-top: 4px solid var(--accent-blue);">
+            <h1 class="mb-1">🛠️ Nuevo <span style="color: var(--accent-blue);">Servicio</span></h1>
+            <p class="text-muted mb-4">Crea un nuevo servicio para el catálogo.</p>
 
-    {{ include('servicio/_form.html.twig') }}
+            {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+                {{ form_errors(form) }}
 
-    <a href="{{ path('app_servicio_index') }}">back to list</a>
+                {% for child in form %}
+                    {% if child.vars.name != '_token' %}
+                    <div class="mb-3">
+                        {{ form_label(child) }}
+                        {{ form_widget(child, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(child) }}
+                    </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="d-flex gap-3 mt-4">
+                    <button class="btn btn-primary flex-grow-1">💾 Guardar Servicio</button>
+                    <a href="{{ path('app_servicio_index') }}" class="btn btn-outline-primary">Cancelar</a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
 {% endblock %}

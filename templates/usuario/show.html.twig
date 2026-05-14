@@ -1,34 +1,48 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Usuario{% endblock %}
+{% block title %}Detalle de Usuario - JM Motor{% endblock %}
 
 {% block body %}
-    <h1>Usuario</h1>
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Usuario <span style="color: var(--accent-blue);">#{{ usuario.id }}</span></h1>
+        <a href="{{ path('app_usuario_index') }}" class="btn btn-outline-primary">← Volver al listado</a>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ usuario.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ usuario.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ usuario.roles ? usuario.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ usuario.password }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4 class="mb-4" style="color: var(--accent-orange);">👤 Información de la Cuenta</h4>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Correo Electrónico</small>
+                            <p class="mb-0 fw-bold mt-1">{{ usuario.email }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Roles asignados</small>
+                            <div class="mt-1">
+                                {% for role in usuario.roles %}
+                                    <span class="badge bg-{{ role == 'ROLE_ADMIN' ? 'danger' : 'primary' }}">{{ role }}</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <a href="{{ path('app_usuario_index') }}">back to list</a>
-
-    <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}">edit</a>
-
-    {{ include('usuario/_delete_form.html.twig') }}
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="mb-3 text-muted">Acciones de Cuenta</h6>
+                <div class="d-grid gap-2">
+                    <a href="{{ path('app_usuario_edit', {'id': usuario.id}) }}" class="btn btn-outline-warning btn-sm">✏️ Editar Usuario</a>
+                    {{ include('usuario/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

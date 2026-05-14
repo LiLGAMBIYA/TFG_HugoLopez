@@ -1,38 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Pieza{% endblock %}
+{% block title %}Detalle de Pieza - JM Motor{% endblock %}
 
 {% block body %}
-    <h1>Pieza</h1>
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Pieza <span style="color: var(--accent-blue);">#{{ pieza.id }}</span></h1>
+        <a href="{{ path('app_pieza_index') }}" class="btn btn-outline-primary">← Volver al listado</a>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ pieza.id }}</td>
-            </tr>
-            <tr>
-                <th>Referencia</th>
-                <td>{{ pieza.referencia }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ pieza.nombre }}</td>
-            </tr>
-            <tr>
-                <th>PrecioUnidad</th>
-                <td>{{ pieza.precioUnidad }}</td>
-            </tr>
-            <tr>
-                <th>Stock</th>
-                <td>{{ pieza.stock }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4 class="mb-4" style="color: var(--accent-orange);">⚙️ Datos de la Pieza</h4>
+                <div class="row g-3">
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Nombre</small>
+                            <p class="mb-0 fw-bold mt-1">{{ pieza.nombre }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Referencia</small>
+                            <p class="mb-0 fw-bold mt-1"><span class="badge bg-secondary">{{ pieza.referencia }}</span></p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Precio Unidad</small>
+                            <p class="mb-0 fw-bold mt-1 text-success">{{ pieza.precioUnidad|number_format(2, ',', '.') }} €</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Stock disponible</small>
+                            <p class="mb-0 fw-bold mt-1">
+                                {% if pieza.stock < 5 %}
+                                    <span class="text-danger">{{ pieza.stock }} (Bajo)</span>
+                                {% else %}
+                                    <span class="text-success">{{ pieza.stock }}</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <a href="{{ path('app_pieza_index') }}">back to list</a>
-
-    <a href="{{ path('app_pieza_edit', {'id': pieza.id}) }}">edit</a>
-
-    {{ include('pieza/_delete_form.html.twig') }}
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="mb-3 text-muted">Acciones de Inventario</h6>
+                <div class="d-grid gap-2">
+                    <a href="{{ path('app_pieza_edit', {'id': pieza.id}) }}" class="btn btn-outline-warning btn-sm">✏️ Editar Pieza</a>
+                    {{ include('pieza/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

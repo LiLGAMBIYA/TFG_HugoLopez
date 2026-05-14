@@ -1,26 +1,50 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Servicio{% endblock %}
+{% block title %}Detalle de Servicio - JM Motor{% endblock %}
 
 {% block body %}
-    <h1>Servicio</h1>
+<div class="animate-fade-in">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Servicio <span style="color: var(--accent-blue);">#{{ servicio.id }}</span></h1>
+        <a href="{{ path('app_servicio_index') }}" class="btn btn-outline-primary">← Volver al catálogo</a>
+    </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ servicio.id }}</td>
-            </tr>
-            <tr>
-                <th>Nombre</th>
-                <td>{{ servicio.nombre }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="row g-4">
+        <div class="col-md-8">
+            <div class="glass-card p-4">
+                <h4 class="mb-4" style="color: var(--accent-orange);">🛠️ Datos del Servicio</h4>
+                <div class="row g-3">
+                    <div class="col-12">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Nombre del Servicio</small>
+                            <p class="mb-0 fw-bold mt-1 fs-5">{{ servicio.nombre }}</p>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Descripción</small>
+                            <p class="mb-0 mt-1">{{ servicio.descripcion }}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="p-3" style="background: rgba(0,0,0,0.2); border-radius: 8px;">
+                            <small style="color: var(--text-secondary);">Precio Base</small>
+                            <p class="mb-0 fw-bold mt-1 text-success fs-5">{{ servicio.precio|number_format(2, ',', '.') }} €</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <a href="{{ path('app_servicio_index') }}">back to list</a>
-
-    <a href="{{ path('app_servicio_edit', {'id': servicio.id}) }}">edit</a>
-
-    {{ include('servicio/_delete_form.html.twig') }}
+        <div class="col-md-4">
+            <div class="glass-card p-4">
+                <h6 class="mb-3 text-muted">Acciones de Catálogo</h6>
+                <div class="d-grid gap-2">
+                    <a href="{{ path('app_servicio_edit', {'id': servicio.id}) }}" class="btn btn-outline-warning btn-sm">✏️ Editar Servicio</a>
+                    {{ include('servicio/_delete_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
