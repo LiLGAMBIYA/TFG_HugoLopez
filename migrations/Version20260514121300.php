@@ -16,7 +16,7 @@ final class Version20260514121300 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        $this->addSql('ALTER TABLE servicio ADD descripcion CLOB DEFAULT NULL');
+        $this->addSql('ALTER TABLE servicio ADD descripcion TEXT DEFAULT NULL');
     }
 
     public function down(Schema $schema): void

@@ -40,7 +40,7 @@ class Cita
     private ?Servicio $servicio = null;
 
     #[ORM\ManyToOne(inversedBy: 'citas')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Vehiculo $vehiculo = null;
 
     #[ORM\ManyToOne(inversedBy: 'citasComoCliente')]

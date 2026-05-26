@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      APP_ENV: dev
+      APP_SECRET: 6f1b0e7c9c1e4d2a9b8c7d6e5f4a3b2c
+      DATABASE_URL: postgresql://app:app@database:5432/jmmotor?serverVersion=16&charset=utf8
+      MESSENGER_TRANSPORT_DSN: doctrine://default?auto_setup=0
+      MAILER_DSN: null://null
+    volumes:
+      - .:/var/www/html
+      - vendor_data:/var/www/html/vendor
+      - var_data:/var/www/html/var
+    depends_on:
+      database:
+        condition: service_healthy
+
+  web:
+    image: nginx:1.27-alpine
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html:ro
+      - vendor_data:/var/www/html/vendor:ro
+      - var_data:/var/www/html/var
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: jmmotor
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U app -d jmmotor"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
+  vendor_data:
+  var_data:
