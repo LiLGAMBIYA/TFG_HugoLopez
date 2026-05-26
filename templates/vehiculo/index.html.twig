@@ -33,6 +33,10 @@
                         <td class="text-end">
                             <a href="{{ path('app_vehiculo_show', {'id': vehiculo.id}) }}" class="btn btn-sm btn-outline-info">Ver</a>
                             <a href="{{ path('app_vehiculo_edit', {'id': vehiculo.id}) }}" class="btn btn-sm btn-outline-warning">Editar</a>
+                            <form method="post" action="{{ path('app_vehiculo_delete', {'id': vehiculo.id}) }}" class="d-inline" onsubmit="return confirm('¿Seguro que quieres eliminar este vehículo? Las citas asociadas se conservarán sin vehículo.');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ vehiculo.id) }}">
+                                <button class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            </form>
                         </td>
                     </tr>
                 {% else %}

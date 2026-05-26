@@ -13,6 +13,7 @@ class ServicioType extends AbstractType
     {
         $builder
             ->add('nombre')
+            ->add('descripcion')
             ->add('precio')
         ;
     }

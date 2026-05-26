@@ -90,8 +90,7 @@
                 {% set badge_map = {
                     'Pendiente':  'warning',
                     'Confirmada': 'primary',
-                    'En proceso': 'info',
-                    'Finalizada': 'success',
+                    'Realizada': 'success',
                     'Cancelada':  'danger'
                 } %}
                 <span class="badge fs-5 py-2 px-4 bg-{{ badge_map[citum.estado] ?? 'secondary' }}">
@@ -105,10 +104,16 @@
                     <input type="hidden" name="_token" value="{{ csrf_token('estado' ~ citum.id) }}">
                     <div class="d-grid gap-2">
                         <button type="submit" name="estado" value="Confirmada" class="btn btn-sm btn-outline-primary">✅ Confirmar</button>
-                        <button type="submit" name="estado" value="En proceso" class="btn btn-sm btn-outline-info">🔧 En Proceso</button>
-                        <button type="submit" name="estado" value="Finalizada" class="btn btn-sm btn-outline-success">🏁 Finalizada</button>
+                        <button type="submit" name="estado" value="Realizada" class="btn btn-sm btn-outline-success">🏁 Realizada</button>
                         <button type="submit" name="estado" value="Cancelada" class="btn btn-sm btn-outline-danger">❌ Cancelar</button>
                     </div>
+                </form>
+                {% endif %}
+                {% if not is_granted('ROLE_ADMIN') and citum.estado in ['Pendiente', 'Confirmada'] %}
+                <hr class="my-4" style="border-color: var(--glass-border);">
+                <form method="post" action="{{ path('app_cita_cancelar', {'id': citum.id}) }}" onsubmit="return confirm('¿Seguro que quieres cancelar esta cita?');">
+                    <input type="hidden" name="_token" value="{{ csrf_token('cancelar' ~ citum.id) }}">
+                    <button class="btn btn-outline-danger btn-sm w-100">❌ Cancelar Cita</button>
                 </form>
                 {% endif %}
             </div>

@@ -44,8 +44,8 @@
                         <td>
                             {% set badge_color = 'secondary' %}
                             {% if citum.estado == 'Pendiente' %}{% set badge_color = 'warning' %}
-                            {% elseif citum.estado == 'En proceso' %}{% set badge_color = 'info' %}
-                            {% elseif citum.estado == 'Finalizada' %}{% set badge_color = 'success' %}
+                            {% elseif citum.estado == 'Confirmada' %}{% set badge_color = 'primary' %}
+                            {% elseif citum.estado == 'Realizada' %}{% set badge_color = 'success' %}
                             {% elseif citum.estado == 'Cancelada' %}{% set badge_color = 'danger' %}
                             {% endif %}
                             <span class="badge bg-{{ badge_color }}">{{ citum.estado }}</span>
@@ -54,6 +54,12 @@
                         <td class="text-end">
                             <a href="{{ path('app_cita_show', {'id': citum.id}) }}" class="btn btn-sm btn-outline-info">Ver</a>
                             <a href="{{ path('app_cita_edit', {'id': citum.id}) }}" class="btn btn-sm btn-outline-warning">Editar</a>
+                            {% if citum.estado in ['Pendiente', 'Confirmada'] %}
+                                <form method="post" action="{{ path('app_cita_cancelar', {'id': citum.id}) }}" class="d-inline" onsubmit="return confirm('¿Seguro que quieres cancelar esta cita?');">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cancelar' ~ citum.id) }}">
+                                    <button class="btn btn-sm btn-outline-danger">Cancelar</button>
+                                </form>
+                            {% endif %}
                         </td>
                     </tr>
                 {% else %}

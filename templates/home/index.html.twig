@@ -41,10 +41,17 @@
             </div>
             <div class="col-md-4">
                 <div class="glass-card h-100 text-center p-4">
-                    <div style="font-size: 3rem; margin-bottom: 1rem;">🧾</div>
-                    <h3>Facturas</h3>
-                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Consulta y descarga el historial de facturas de tus servicios finalizados.</p>
-                    <a href="{{ path('app_factura_index') }}" class="btn btn-outline-primary mt-3">Ver Facturas</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🧾</div>
+                        <h3>Facturas</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Consulta y gestiona el historial de facturas de los servicios finalizados.</p>
+                        <a href="{{ path('app_factura_index') }}" class="btn btn-outline-primary mt-3">Ver Facturas</a>
+                    {% else %}
+                        <div style="font-size: 3rem; margin-bottom: 1rem;">🛠️</div>
+                        <h3>Nueva Cita</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem;">Solicita una revisión, reparación o mantenimiento para tu vehículo.</p>
+                        <a href="{{ path('app_home_reservar') }}" class="btn btn-outline-primary mt-3">Pedir Cita</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -58,7 +65,7 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="glass-card h-100">
                             <h4 class="text-white">{{ servicio.nombre }}</h4>
-                            <p class="text-muted">{{ servicio.descripcion }}</p>
+                            <p class="text-muted">{{ servicio.descripcion ?: 'Servicio profesional de mantenimiento y reparación para su vehículo.' }}</p>
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <span class="badge bg-primary px-3 py-2 fs-6">{{ servicio.precio }} €</span>
                             </div>
@@ -66,8 +73,32 @@
                     </div>
                 {% endfor %}
             {% else %}
-                <div class="col-12 text-center text-muted">
-                    <p>No hay servicios configurados actualmente.</p>
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card h-100">
+                        <h4 class="text-white">Mecánica general</h4>
+                        <p class="text-muted">Diagnóstico y reparación de averías mecánicas habituales del vehículo.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-primary px-3 py-2 fs-6">Consultar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card h-100">
+                        <h4 class="text-white">Mantenimiento</h4>
+                        <p class="text-muted">Cambio de aceite, filtros, revisiones periódicas y puesta a punto.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-primary px-3 py-2 fs-6">Consultar</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="glass-card h-100">
+                        <h4 class="text-white">Neumáticos</h4>
+                        <p class="text-muted">Revisión, sustitución y equilibrado de neumáticos para circular con seguridad.</p>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <span class="badge bg-primary px-3 py-2 fs-6">Consultar</span>
+                        </div>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -77,9 +108,15 @@
             <h2 class="mb-4 text-center">Ubicación y <span style="color: var(--accent);">Contacto</span></h2>
             <div class="row">
                 <div class="col-md-6 mb-4 mb-md-0">
-                    <div class="rounded overflow-hidden h-100" style="min-height: 300px;">
+                    <div class="rounded overflow-hidden h-100 position-relative" style="min-height: 300px;">
+                        <div class="position-absolute top-0 start-0 end-0 p-3" style="z-index: 2; background: linear-gradient(180deg, rgba(0,0,0,.78), rgba(0,0,0,.15));">
+                            <strong class="d-block text-white">Cam. de Purchil, 1, Ronda, 18004 Granada</strong>
+                            <a href="https://www.google.com/maps/search/?api=1&query=JM+Motor+Taller+Mec%C3%A1nico+Cam.+de+Purchil+1+Ronda+18004+Granada" target="_blank" rel="noopener" class="btn btn-sm btn-primary mt-2">
+                                Abrir en Google Maps
+                            </a>
+                        </div>
                         <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d3179.3787766576884!2d-3.626782023479634!3d37.16744037214343!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd71fcb686e06803%3A0x64c8d5be144dc309!2sCam.%20de%20Purchil%2C%201%2C%20Ronda%2C%2018004%20Granada!5e0!3m2!1ses!2ses!4v1715500000000!5m2!1ses!2ses" 
+                            src="https://www.google.com/maps?q=JM%20Motor%20Taller%20Mec%C3%A1nico%2C%20Cam.%20de%20Purchil%2C%201%2C%20Ronda%2C%2018004%20Granada&z=16&output=embed" 
                             width="100%" 
                             height="100%" 
                             style="border:0; min-height: 300px;" 
@@ -105,6 +142,14 @@
                         <div>
                             <strong class="d-block text-white">Teléfono</strong>
                             <span class="text-muted">664 30 50 28</span>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">✉️</div>
+                        <div>
+                            <strong class="d-block text-white">Correo electrónico</strong>
+                            <a class="text-muted text-decoration-none" href="mailto:jmmotor@taller.es">jmmotor@taller.es</a>
                         </div>
                     </div>
                     

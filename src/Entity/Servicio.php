@@ -27,6 +27,9 @@ class Servicio
     #[ORM\Column(nullable: true)]
     private ?float $precio = null;
 
+    #[ORM\Column(type: 'text', nullable: true)]
+    private ?string $descripcion = null;
+
     public function __construct()
     {
         $this->citas = new ArrayCollection();
@@ -87,6 +90,18 @@ class Servicio
     public function setPrecio(?float $precio): static
     {
         $this->precio = $precio;
+
+        return $this;
+    }
+
+    public function getDescripcion(): ?string
+    {
+        return $this->descripcion;
+    }
+
+    public function setDescripcion(?string $descripcion): static
+    {
+        $this->descripcion = $descripcion;
 
         return $this;
     }

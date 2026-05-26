@@ -67,8 +67,8 @@ class CitaType extends AbstractType
             $builder->add('estado', ChoiceType::class, [
                 'choices' => [
                     'Pendiente' => 'Pendiente',
-                    'En proceso' => 'En proceso',
-                    'Finalizada' => 'Finalizada',
+                    'Confirmada' => 'Confirmada',
+                    'Realizada' => 'Realizada',
                     'Cancelada' => 'Cancelada',
                 ],
                 'label' => 'Estado',

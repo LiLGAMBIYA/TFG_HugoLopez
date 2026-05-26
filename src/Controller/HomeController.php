@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Cita;
+use App\Entity\Usuario;
 use App\Entity\Vehiculo;
 use App\Form\CitaPublicType;
 use App\Repository\ServicioRepository;
@@ -36,9 +37,10 @@ class HomeController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $matricula = $form->get('matricula')->getData();
+            $matricula = strtoupper(trim($form->get('matricula')->getData()));
             $marca     = $form->get('marca')->getData();
             $modelo    = $form->get('modelo')->getData();
+            $usuario   = $this->getUser();
 
             $vehiculo = $entityManager->getRepository(Vehiculo::class)->findOneBy(['matricula' => $matricula]);
             if (!$vehiculo) {
@@ -47,6 +49,14 @@ class HomeController extends AbstractController
                 $vehiculo->setMarca($marca);
                 $vehiculo->setModelo($modelo);
                 $entityManager->persist($vehiculo);
+            }
+
+            if ($usuario instanceof Usuario) {
+                $cita->setCliente($usuario);
+
+                if (!$vehiculo->getPropietario()) {
+                    $vehiculo->setPropietario($usuario);
+                }
             }
 
             $cita->setVehiculo($vehiculo);

@@ -30,11 +30,33 @@ final class CitaController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/cancelar', name: 'app_cita_cancelar', methods: ['POST'])]
+    public function cancelar(Request $request, Cita $citum, EntityManagerInterface $entityManager): Response
+    {
+        if (!$this->isGranted('ROLE_ADMIN') && $citum->getCliente() !== $this->getUser()) {
+            throw $this->createAccessDeniedException();
+        }
+
+        if ($this->isCsrfTokenValid('cancelar'.$citum->getId(), $request->request->get('_token'))) {
+            if (in_array($citum->getEstado(), ['Pendiente', 'Confirmada'], true)) {
+                $citum->setEstado('Cancelada');
+                $entityManager->flush();
+                $this->addFlash('success', 'La cita se ha cancelado correctamente.');
+            } else {
+                $this->addFlash('danger', 'Solo se pueden cancelar citas pendientes o confirmadas.');
+            }
+        } else {
+            $this->addFlash('danger', 'No se pudo cancelar la cita. Token no válido.');
+        }
+
+        return $this->redirectToRoute('app_cita_index', [], Response::HTTP_SEE_OTHER);
+    }
+
     #[Route('/{id}/estado', name: 'app_cita_change_estado', methods: ['POST'])]
     #[IsGranted('ROLE_ADMIN')]
     public function changeEstado(Request $request, Cita $citum, EntityManagerInterface $entityManager): Response
     {
-        $estadosValidos = ['Pendiente', 'Confirmada', 'En proceso', 'Finalizada', 'Cancelada'];
+        $estadosValidos = ['Pendiente', 'Confirmada', 'Realizada', 'Cancelada'];
         $nuevoEstado = $request->request->get('estado');
 
         if ($this->isCsrfTokenValid('estado'.$citum->getId(), $request->request->get('_token'))
