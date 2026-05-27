@@ -32,6 +32,12 @@ class HomeController extends AbstractController
     #[Route('/reservar', name: 'app_home_reservar', methods: ['GET', 'POST'])]
     public function reservar(Request $request, EntityManagerInterface $entityManager): Response
     {
+        if (!$this->getUser()) {
+            $this->addFlash('info', 'Para pedir una cita debes registrarte o iniciar sesión.');
+
+            return $this->redirectToRoute('app_register');
+        }
+
         $cita = new Cita();
         $form = $this->createForm(CitaPublicType::class, $cita);
         $form->handleRequest($request);
